@@ -42,3 +42,34 @@ void push(stack_t **stack, unsigned int line_number)
 	new->next = head;
 	*stack = new;
 }
+/**
+ * swap - swap the two topmost elements in stack
+ * @stack: The stack
+ * @line_number: Line number
+ */
+void swap(stack_t **stack, unsigned int line_number)
+{
+	stack_t *old_top, *third_item;
+	int i = 0;
+
+	old_top = (*stack);
+	while (old_top != NULL)
+	{
+		i++;
+		old_top = old_top->next;
+	}
+	if (i < 2)
+	{
+		dprintf(2, "L%d: Can't swap, stack too short", line_number);
+		exit(EXIT_FAILURE);
+	}
+	*stack = (*stack)->next;
+	old_top = (*stack)->prev;
+	(*stack)->prev = NULL;
+	third_item = (*stack)->next;
+	old_top->next = third_item;
+	old_top->prev = (*stack);
+	if (i > 2)
+		third_item->prev = old_top;
+	(*stack)->next = old_top;
+}

@@ -9,17 +9,18 @@
  */
 int main(int argc, char **argv)
 {
-	unsigned int line_number = 0, line_size = 0;
+	unsigned int line_number = 0;
 	FILE *fp = fopen(argv[1], "r");
 	char *line;
-	long unsigned int i, found_instruction = 0;
+	long unsigned int i, found_instruction = 0, line_size = 0;
 	stack_t *stack = NULL;
 	char *token;
 	instruction_t instruction[] = {
 		{"push", &push},
 		{"pall", &pall},
 		{"pint", &pint},
-		{"pop", &pop}
+		{"pop", &pop},
+		{"swap", &swap}
 	};
 
 	if (argc != 2)

@@ -1,17 +1,10 @@
-
+push 20
 push 89
-push 88
 push 77
-           push       86
-
-
-
-	   push 92
-
+pall
+      swap
 
 	   pall
-pint 
-	             pop
-		pint
-	pop
-pint
+	   swap
+
+	 pint
