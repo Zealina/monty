@@ -9,10 +9,10 @@
  */
 int main(int argc, char **argv)
 {
-	unsigned int line_number = 0;
+	unsigned int line_number = 0, line_size = 0;
 	FILE *fp = fopen(argv[1], "r");
 	char *line;
-	long unsigned int i, found_instruction = 0, line_size = 0;
+	long unsigned int i, found_instruction = 0;
 	stack_t *stack = NULL;
 	char *token;
 	instruction_t instruction[] = {
@@ -21,7 +21,14 @@ int main(int argc, char **argv)
 		{"pint", &pint},
 		{"pop", &pop},
 		{"swap", &swap},
-		{"add", &add}
+		{"add", &add},
+		{"nop", &nop},
+		{"sub", &sub},
+		{"div", &divide},
+		{"mul", &mul},
+		{"mod", &mod},
+		{"pchar", &pchar},
+		{"pstr", &pstr}
 	};
 
 	if (argc != 2)
@@ -49,6 +56,8 @@ int main(int argc, char **argv)
 					(instruction[i]).f(&stack, line_number);
 					break;
 				}
+				else if (token[0] == '#')
+					found_instruction = 1;
 			}
 			if (!found_instruction)
 			{
