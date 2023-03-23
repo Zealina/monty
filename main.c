@@ -9,14 +9,15 @@
  */
 int main(int argc, char **argv)
 {
-	unsigned int line_number;
-	FILE *fp;
+	unsigned int line_number = 0, line_size = 0;
+	FILE *fp = fopen(argv[1], "r");
 	char *line;
 	long unsigned int found_instruction = 0, i;
 	stack_t *stack = NULL;
 	char *token;
 	instruction_t instruction[] = {
-		{"push", &push}
+		{"push", &push},
+		{"pall", &pall}
 	};
 
 	if (argc != 2)
@@ -24,16 +25,15 @@ int main(int argc, char **argv)
 		dprintf(2, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fp = fopen(argv[1], "r");
 	if (fp == NULL)
 	{
 		dprintf(2, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (getline(&line, 0, fp) != -1)
+	while (getline(&line, &line_size, fp) != -1)
 	{
 		line_number++;
-		token = strtok(line, " ");
+		token = strtok(line, " \n");
 		if (token != NULL)
 		{
 			for (i = 0; i < (sizeof(instruction) / sizeof(instruction_t)); i++)

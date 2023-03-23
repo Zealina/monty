@@ -17,28 +17,28 @@ void push(stack_t **stack, unsigned int line_number)
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		dprintf(2, "Error: malloc failed");
+		dprintf(2, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	push_line = strtok(NULL, " ");
+	push_line = strtok(NULL, " \n\t");
 	if (push_line == NULL)
 	{
-		dprintf(2, "L%d: usage: push integer", line_number);
+		dprintf(2, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	for (i = 0; push_line[i]; i++)
 	{
 		if (isdigit(push_line[i]) == 0 && push_line[i] != '-')
 		{
-			dprintf(2, "L%d: usage: push integer", line_number);
+			dprintf(2, "L%d: usage: push integer,\n", line_number);
 			exit(EXIT_FAILURE);
 		}
 	}
 	data = atoi(push_line);
 	new->n = data;
 	new->prev = NULL;
-	new->next = head;
 	if (head != NULL)
 		head->prev = new;
-	head = new;
+	new->next = head;
+	*stack = new;
 }
