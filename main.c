@@ -12,12 +12,14 @@ int main(int argc, char **argv)
 	unsigned int line_number = 0, line_size = 0;
 	FILE *fp = fopen(argv[1], "r");
 	char *line;
-	long unsigned int found_instruction = 0, i;
+	long unsigned int i, found_instruction = 0;
 	stack_t *stack = NULL;
 	char *token;
 	instruction_t instruction[] = {
 		{"push", &push},
-		{"pall", &pall}
+		{"pall", &pall},
+		{"pint", &pint},
+		{"pop", &pop}
 	};
 
 	if (argc != 2)
@@ -33,25 +35,27 @@ int main(int argc, char **argv)
 	while (getline(&line, &line_size, fp) != -1)
 	{
 		line_number++;
-		token = strtok(line, " \n");
+		token = strtok(line, " \n\t");
 		if (token != NULL)
 		{
 			for (i = 0; i < (sizeof(instruction) / sizeof(instruction_t)); i++)
 			{
+				found_instruction = 0;
 				if (strcmp(token, (instruction[i]).opcode) == 0)
 				{
 					found_instruction = 1;
 					(instruction[i]).f(&stack, line_number);
 					break;
 				}
-				if (found_instruction == 0)
-				{
-					dprintf(2, "L%d: unknown instruction %s\n", line_number, token);
-					exit(EXIT_FAILURE);
-				}
+			}
+			if (!found_instruction)
+			{
+				dprintf(2, "L%d: unknown instruction %s\n", line_number, token);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}
+
 	free(line);
 	fclose(fp);
 	return (0);
