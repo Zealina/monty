@@ -1,10 +1,6 @@
-push 20
-push 89
+
 push 77
+push 90
 pall
-      swap
-
-	   pall
-	   swap
-
-	 pint
+add
+pall
