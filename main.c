@@ -9,27 +9,12 @@
  */
 int main(int argc, char **argv)
 {
-	unsigned int line_number = 0, line_size = 0;
+	unsigned int line_number = 0;
 	FILE *fp = fopen(argv[1], "r");
 	char *line;
-	long unsigned int i, found_instruction = 0;
+	unsigned long int found_instruction = 0, line_size = 0;
 	stack_t *stack = NULL;
 	char *token;
-	instruction_t instruction[] = {
-		{"push", &push},
-		{"pall", &pall},
-		{"pint", &pint},
-		{"pop", &pop},
-		{"swap", &swap},
-		{"add", &add},
-		{"nop", &nop},
-		{"sub", &sub},
-		{"div", &divide},
-		{"mul", &mul},
-		{"mod", &mod},
-		{"pchar", &pchar},
-		{"pstr", &pstr}
-	};
 
 	if (argc != 2)
 	{
@@ -47,18 +32,7 @@ int main(int argc, char **argv)
 		token = strtok(line, " \n\t");
 		if (token != NULL)
 		{
-			for (i = 0; i < (sizeof(instruction) / sizeof(instruction_t)); i++)
-			{
-				found_instruction = 0;
-				if (strcmp(token, (instruction[i]).opcode) == 0)
-				{
-					found_instruction = 1;
-					(instruction[i]).f(&stack, line_number);
-					break;
-				}
-				else if (token[0] == '#')
-					found_instruction = 1;
-			}
+			found_instruction = engine(&stack, token, line_number);
 			if (!found_instruction)
 			{
 				dprintf(2, "L%d: unknown instruction %s\n", line_number, token);
