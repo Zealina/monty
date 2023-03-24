@@ -11,31 +11,30 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new, *head;
 	char *push_line;
-	int data, i;
+	int i;
 
 	head = (*stack);
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		dprintf(2, "Error: malloc failed\n");
+		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 	push_line = strtok(NULL, " \n\t");
 	if (push_line == NULL)
 	{
-		dprintf(2, "L%d: usage: push integer\n", line_number);
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	for (i = 0; push_line[i]; i++)
 	{
 		if (isdigit(push_line[i]) == 0 && push_line[i] != '-')
 		{
-			dprintf(2, "L%d: usage: push integer,\n", line_number);
+			fprintf(stderr, "L%d: usage: push integer,\n", line_number);
 			exit(EXIT_FAILURE);
 		}
 	}
-	data = atoi(push_line);
-	new->n = data;
+	new->n = atoi(push_line);
 	new->prev = NULL;
 	if (head != NULL)
 		head->prev = new;
@@ -60,7 +59,7 @@ void swap(stack_t **stack, unsigned int line_number)
 	}
 	if (i < 2)
 	{
-		dprintf(2, "L%d: Can't swap, stack too short\n", line_number);
+		fprintf(stderr, "L%d: Can't swap, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	*stack = (*stack)->next;
