@@ -20,7 +20,7 @@ void push(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	push_line = strtok(NULL, " \n\t");
+	push_line = strtok(NULL, " \n");
 	if (push_line == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
